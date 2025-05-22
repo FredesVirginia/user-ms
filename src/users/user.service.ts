@@ -9,20 +9,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import {User} from "./entity/user.entity"
 import { ILike, Repository } from 'typeorm';
-import { CreateTodoListDto } from './dto/User-created.dto';
+
 import { RpcException } from '@nestjs/microservices';
+import { CreateUserDto } from './dto/User-created.dto';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private todoListRepository: Repository<User>,
+    private userRepository: Repository<User>,
   ) {}
 
-  async createTodoList(todoListDto: CreateTodoListDto) {
+  async createUser(userDto: CreateUserDto) {
     try {
-      const todoListNew = await this.todoListRepository.save(todoListDto);
-      return todoListNew;
+      const userNew = await this.userRepository.save(userDto);
+      return userNew;
     } catch (error) {
       console.log('EEROR FUE ', error);
 
@@ -36,10 +37,10 @@ export class UserService {
     }
   }
 
-  async getAllTodoList() {
+  async getAllUser() {
     try {
-      const allTodoList = await this.todoListRepository.find();
-      return allTodoList;
+      const allUser = await this.userRepository.find();
+      return allUser;
     } catch (error) {
       throw new RpcException({
         HttpStatus: HttpStatus.BAD_REQUEST,
@@ -48,7 +49,7 @@ export class UserService {
   }
 
   async getIdTodoList(id:string){
-    const todoListId = await this.todoListRepository.findOneBy({id})
+    const todoListId = await this.userRepository.findOneBy({id})
     if(!todoListId){
       throw new NotFoundException("Tarea no encontrada")
     }
@@ -59,12 +60,12 @@ export class UserService {
   }
 
   async deleteTodoList(id: string) {
-    const todoList = await this.todoListRepository.findOneBy({ id });
+    const todoList = await this.userRepository.findOneBy({ id });
     if (!todoList) {
       throw new NotFoundException('Tarea no encontrada');
     }
 
-    const data = await this.todoListRepository.remove(todoList);
+    const data = await this.userRepository.remove(todoList);
     return {
       status: HttpStatus.ACCEPTED,
       data,
@@ -72,19 +73,19 @@ export class UserService {
   }
 
 
-  async lookForTodoListByKeyWord( word : string){
-    const todoList = await this.todoListRepository.find({
-      where : [
-        {title : ILike(`%${word}%`)},
-        {description : ILike(`%${word}%`)},
-        {content : ILike(`%${word}%`)}
-      ]
-    })
+  // async lookForTodoListByKeyWord( word : string){
+  //   const todoList = await this.todoListRepository.find({
+  //     where : [
+  //       {title : ILike(`%${word}%`)},
+  //       {description : ILike(`%${word}%`)},
+  //       {content : ILike(`%${word}%`)}
+  //     ]
+  //   })
 
-     if(!todoList){
-      throw new NotFoundException(`No se encontraron tareas con la palabra clave ${word}`)
-     }
+  //    if(!todoList){
+  //     throw new NotFoundException(`No se encontraron tareas con la palabra clave ${word}`)
+  //    }
 
-     return todoList
-  }
+  //    return todoList
+  // }
 }
