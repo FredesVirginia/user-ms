@@ -1,7 +1,6 @@
 import {ValidatorConstraint,ValidatorConstraintInterface,ValidationArguments,ValidationOptions,registerDecorator} from 'class-validator';
 import { TodoListTitleNotAdmited } from 'src/users/enums/enums';
 
-
 @ValidatorConstraint({ name: 'notIncludeWord', async: false })
 export class NotIncludeWordContrain implements ValidatorConstraintInterface {
   validate(word: string, args: ValidationArguments) {

@@ -6,25 +6,12 @@ export class User {
   id: string;
 
   @Column()
-  title: string;
+  name: string;
 
   @Column()
-  description: string;
+  email: string;
 
-  @Column()
-  month: string;
-
-  @Column({
-    type: 'enum',
-    enum: TodoListState,
-    default: TodoListState.ASSIGNED,
-  })
-  state: TodoListState;
-
-  @Column('text')
-  content:  string;
-
-
+  
   @CreateDateColumn()
   createdAt: Date;
 

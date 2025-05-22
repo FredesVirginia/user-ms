@@ -1,38 +1,36 @@
 import { Body, Controller, Delete, Get, Param,  ParseUUIDPipe, Post } from '@nestjs/common';
 
-import { CreateTodoListDto, SearTodoListByKeyword } from './dto/User-created.dto';
+
 import { Payload } from '@nestjs/microservices';
 import { UserService } from './user.service';
+import { CreateUserDto } from './dto/User-created.dto';
 
-@Controller('todo-list')
+@Controller('users')
 export class UserController {
-    constructor (private readonly todoListServices : UserService){}
+    constructor (private readonly userService : UserService){}
 
 
     @Post()
-    async createTodoList(@Body() createTodoListDto : CreateTodoListDto){
-        const newTodoList = await this.todoListServices.createTodoList(createTodoListDto)
+    async createUser(@Body() userTodoListDto : CreateUserDto){
+        const newTodoList = await this.userService.createUser(userTodoListDto)
         return newTodoList
     }
 
     @Get()
-    async getAllTodoList(){
-        return await this.todoListServices.getAllTodoList()
+    async getAllUser(){
+        return await this.userService.getAllUser()
     }
 
     @Get(':id')
     async getTodoListId(@Param('id' , new ParseUUIDPipe()) id: string){
-        return this.todoListServices.getIdTodoList(id)
+        return this.userService.getIdTodoList(id)
     }
 
 
     @Delete(':id')
     async deleteTodoList(@Param('id' , new ParseUUIDPipe()) id:string){
-        return this.todoListServices.deleteTodoList(id)
+        return this.userService.deleteTodoList(id)
     }
 
-    @Post('search-todo-list-by-keyword')
-    async searchTodoListByKeyword(@Body() dto : SearTodoListByKeyword){
-        return this.todoListServices.lookForTodoListByKeyWord(dto.word)
-    }
+   
 }
