@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param,  ParseUUIDPipe, Post } from '@nestjs/common';
 
 
-import { Payload } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/User-created.dto';
 
@@ -9,7 +9,7 @@ import { CreateUserDto } from './dto/User-created.dto';
 export class UserController {
     constructor (private readonly userService : UserService){}
 
-
+    @MessagePattern('create-user')
     @Post()
     async createUser(@Body() userTodoListDto : CreateUserDto){
         const newTodoList = await this.userService.createUser(userTodoListDto)
