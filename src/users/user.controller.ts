@@ -16,6 +16,7 @@ export class UserController {
         return newTodoList
     }
 
+    @MessagePattern('get-all-u<ser')
     @Get()
     async getAllUser(){
         return await this.userService.getAllUser()
