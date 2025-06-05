@@ -6,10 +6,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entity/user.entity';
 import { envs } from './users/config';
 import { UserModule } from './users/user.module';
+import { Review } from './users/entity/review.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     UserModule,
+    AuthModule,
 
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -18,9 +21,14 @@ import { UserModule } from './users/user.module';
       username: envs.dbUser,
       password: envs.dbPassword,
       database: envs.dbName,
-      entities: [User],
+      // entities: [User , Review],
+      autoLoadEntities: true,
+      entities: ['dist/**/*.entity{.ts,.js}'],
+      migrations: ['dist/migration/*.js'],
       synchronize: true,
     }),
+
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

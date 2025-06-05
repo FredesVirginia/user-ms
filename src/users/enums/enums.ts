@@ -11,3 +11,8 @@ export enum TodoListTitleNotAdmited{
     DEFAULT="default",
     PRUEBA="prueba"
 }
+
+export enum UserRole{
+    USER='USER',
+    ADMIN='ADMIN'
+}

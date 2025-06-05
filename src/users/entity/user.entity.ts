@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { TodoListState } from '../enums/enums';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Review } from './review.entity';
+import { UserRole } from '../enums/enums';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -10,6 +11,21 @@ export class User {
 
   @Column()
   email: string;
+
+  @Column({ nullable: true ,
+    default:"1233333333ytyt"
+  })
+  password : string;
+
+  @Column({
+    type:'enum',
+    enum: UserRole, 
+    default : UserRole.USER
+  })
+  role:UserRole
+
+  @OneToMany(()=>Review , (review)=> review.user , { cascade : true})
+   reviews : Review[]
 
   
   @CreateDateColumn()
