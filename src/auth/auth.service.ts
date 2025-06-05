@@ -22,17 +22,17 @@ export class AuthService {
   }
 
 
-  async login(dto: LoginAuthDto) {
+ async login(dto: LoginAuthDto) {
   const user = await this.userRepo.findOneBy({ email: dto.email });
 
   if (!user || !(await bcrypt.compare(dto.password, user.password))) {
     throw new UnauthorizedException('Credenciales incorrectas');
   }
 
-  const token = await this.signToken(user);
+  const token = await this.signToken(user); // 👈 Ahora token es string
 
   return {
-    access_token: token, // 👈 estándar JWT
+    access_token: token, // 👈 ¡Ahora sí correcto!
     user: {
       id: user.id,
       name: user.name,
@@ -43,6 +43,7 @@ export class AuthService {
     },
   };
 }
+
 
 
   async validateToken(token: string) {
@@ -56,9 +57,15 @@ export class AuthService {
 
 
 
-  private async signToken(user : User){
-    const payload = { sub : user.id , email : user.email , role : user.role};
-    const token = await this.jwt.signAsync(payload);
-    return {access_token : token}
-  }
+
+
+  private async signToken(user: User) {
+  const payload = { sub: user.id, email: user.email, role: user.role };
+  return this.jwt.signAsync(payload); // 👈 Ya no lo envuelvas en { access_token }
 }
+
+}
+
+
+
+

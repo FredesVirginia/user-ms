@@ -12,7 +12,7 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     UserModule,
-    AuthModule,
+   
 
     TypeOrmModule.forRoot({
       type: 'postgres',
