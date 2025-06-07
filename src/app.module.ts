@@ -3,11 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/entity/user.entity';
+import { AuthModule } from './auth/auth.module';
 import { envs } from './users/config';
 import { UserModule } from './users/user.module';
-import { Review } from './users/entity/review.entity';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
